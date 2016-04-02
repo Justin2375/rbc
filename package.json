@@ -1,0 +1,20 @@
+{
+  "name": "rbc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Red Bird Chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Justin2375/rbc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Justin2375/rbc/issues"
+  },
+  "homepage": "https://github.com/Justin2375/rbc#readme"
+}
