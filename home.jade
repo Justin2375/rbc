@@ -19,6 +19,14 @@ body
         div.col-sm-12
           div.well.well-md(style="height: 18em")
             div.row
+              div.col-sm-2
+              div.col-sm-8
+                .table-responsive
+                  table
+                    tr
+                      th
+              div.col-sm-2
+            div.row
               div.col-sm-3
               #disappear
                 div.col-sm-3
@@ -37,12 +45,14 @@ body
         div.col-sm-12.bottom
 
     script.
+          var msgBoard = document.getElementsByTagName("th");
+
           function setName() {
           var x = document.getElementById("nameTextField");
           var dis = document.getElementById("disappear");
           var unblock = document.getElementById("chatTextField");
           var unblock2 = document.getElementById("msgBtn");
-          
+
           unblock.disabled = false;
           unblock2.disabled = false;
 
@@ -53,14 +63,26 @@ body
           x.value = " "
           dis.style.display = "none"
           dis.style.visibility = "hidden"
+
           }
           function sendMessage() {
           var x = document.getElementById("chatTextField");
 
           var messageString = x.value // <--- USE THIS FOR BACKEND
 
-          x.value = messageString
-          // function(name,messageString) USE THIS
+            for(i = 0; i < msgBoard.length; ++i)
+            {
+              if(i != msgBoard.length - 1)
+              {
+                msgBoard[i].innerHTML = msgBoard[i+1].innerHTML
+              }
+              else
+              {
+                msgBoard[i].innerHTML = name + ": " + messageString
+              
+              }
+            }
+            x.value = " "
           }
           function limitText(limitField, limitCount, limitNum) {
           if (limitField.value.length > limitNum) {
