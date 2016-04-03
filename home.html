@@ -1,0 +1,27 @@
+<!DOCTYPE html><head><title>Red Bird Chat</title><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><script src="/socket.io/socket.io.js"></script><script src="script.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script></head><body><div class="container-fluid text-center"><div class="row page-header"><div class="col-sm-12"><h1 class="text-primary">Four Minute Friends</h1></div></div><div class="row"><div class="col-sm-12"></div></div><div class="row"><div class="col-sm-12"></div></div><div class="row jumbotron"><div class="col-sm-12"><div class="well well-lg"><div class="row"><div class="col-sm-3"></div><div id="disappear"><div class="col-sm-3"><input id="nameTextField" type="text" value="what's your name?" onkeydown="limitText(this.form-group#nameTextField,this.form-group.countdown,15);" onkeyup="limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);" maxlength="15" class="form-group form-control"></div><div class="col-sm-1"><button id="nameBut" onclick="setName()" class="btn btn-primary">Set Name</button></div></div><div class="col-sm-5"></div></div></div><div class="col-sm-8"><input id="chatTextField" type="text" value="write your text here..." onkeydown="limitText(this.form-group#chatTextField,this.form-group.countdown,180)" currentCount(-1) onkeyup="limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)" maxlength="180" class="form-group form-control"><font size="1"></font>(Maximum characters: 180)</div><div class="col-sm-1"><button onclick="sendMessage()" class="btn btn-primary">Send</button></div><div class="col-sm-3"></div></div></div><div class="row"><div class="col-sm-12 bottom"></div></div></div><script>function setName() {
+var x = document.getElementById("nameTextField");
+var dis = document.getElementById("disappear");
+var unblock = document.getElementById("chatTextField");
+
+name = x.value; // <--- USE THIS FOR BACKEND
+
+unblock.value = "write your text here..."
+x.value = " "
+dis.style.display = "none"
+dis.style.visibility = "hidden"
+}
+function sendMessage() {
+var x = document.getElementById("chatTextField");
+
+var messageString = x.value // <--- USE THIS FOR BACKEND
+
+x.value = " "
+// function(name,messageString) USE THIS
+}
+function limitText(limitField, limitCount, limitNum) {
+if (limitField.value.length > limitNum) {
+limitField.value = limitField.value.substring(0, limitNum);
+} else {
+limitCount.value = limitNum - limitField.value.length;
+}
+}</script></body>
