@@ -1,23 +1,43 @@
+//Lets require/import the HTTP module
 var http = require('http');
-var express = require('express'), app = express();
-var server = http.createServer(app);
-var jade = require('jade');
-var io = require('socket.io').listen(server);
-var bodyParser = require('body-parser');
+
+var dispatcher = require('httpdispatcher');
+//Lets define a port we want to listen to
+const PORT=3100;
+
+//We need a function which handles requests and send response
+function handleRequest(request, response){
+  try {
+      //log the request on console
+      console.log(request.url);
+      //Disptach
+      dispatcher.dispatch(request, response);
+  } catch(err) {
+      console.log(err);
+  }
+}
 
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.set("view options", { layout: false });
+//Create a server
+var server = http.createServer(handleRequest);
 
-//app.use(express.static("public", __dirname + "/public"));
-
-app.get('/', function (req, res) {
-  res.render('home');
-  console.log("serve")
+//Lets start our server
+server.listen(PORT, function(){
+    //Callback triggered when server is successfully listening. Hurray!
+    console.log("Server listening on: http://localhost:%s", PORT);
 });
-server.listen(3000, function(){
-  console.log("listening on port 3000; press ctrl-c to quit");
+
+//For all your static (js/css/images/etc.) set the directory name (relative path).
+dispatcher.setStatic('resources');
+
+//A sample GET request
+dispatcher.onGet("/page1", function(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Page One');
 });
 
-app.get('')
+//A sample POST request
+dispatcher.onPost("/post1", function(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Got Post Data');
+});
