@@ -30,6 +30,6 @@ socket.on('message', function(data) {
 
 $(function() {
   $('#chatControls').hide();
-  $('#pseudoSet').click(finction() {setPseudo()});
-  $('#submit').click(function() {sentMessage()});
+  $('#pseudoSet').click(function() {setPseudo();});
+  $('#submit').click(function() {sentMessage();});
 });

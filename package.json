@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Red Bird Chat: A web-based geo-locational chat app, where users can chat with other users within a specified range",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,16 +11,19 @@
     "type": "git",
     "url": "git+https://github.com/Justin2375/rbc.git"
   },
-  "author": "",
+  "author": "SIUC ACM",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Justin2375/rbc/issues"
   },
   "homepage": "https://github.com/Justin2375/rbc#readme",
   "dependencies": {
+    "body": "^5.1.0",
+    "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "express-jade": "0.0.3",
     "jade": "^1.11.0",
+    "parser": "^0.1.4",
     "socket.io": "^1.4.5"
   }
 }
