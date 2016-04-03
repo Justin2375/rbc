@@ -14,24 +14,24 @@ body
       div.row
         div.col-sm-12
       div.row
-        div.col-sm-12
+        div.col-sm-1
       div.row.jumbotron
         div.col-sm-12
-          div.well.well-lg
+          div.well.well-md(style="height: 18em")
             div.row
               div.col-sm-3
               #disappear
                 div.col-sm-3
-                  input#nameTextField.form-group(type='text', class="form-control",value='what\'s your name?', onkeydown='limitText(this.form-group#nameTextField,this.form-group.countdown,15);', onkeyup='limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);', maxlength='15')
+                  input#nameTextField.form-group(type='text', class="form-control",placeholder="what\'s your name?", onkeydown='limitText(this.form-group#nameTextField,this.form-group.countdown,15);', onkeyup='limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);', maxlength='15')
                 div.col-sm-1
                   button#nameBut.btn.btn-primary(onclick='setName()') Set Name
               div.col-sm-5
           div.col-sm-8
-            input#chatTextField.form-group(type='text', class="form-control",value='write your text here...',onkeydown='limitText(this.form-group#chatTextField,this.form-group.countdown,180)', 'currentCount(-1)', onkeyup='limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)', maxlength='180')
+            input#chatTextField.form-group(disabled = "true",type='text', class="form-control",value ="--Disabled--Please Enter Name Above",onkeydown='limitText(this.form-group#chatTextField,this.form-group.countdown,180)', 'currentCount(-1)', onkeyup='limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)', maxlength='180')
             font(size='1')
             | (Maximum characters: 180)
           div.col-sm-1
-            button.btn.btn-primary(onclick='sendMessage()') Send
+            button#msgBtn.btn.btn-primary(onclick='sendMessage()', disabled="true") Send
           div.col-sm-3
       div.row
         div.col-sm-12.bottom
@@ -41,10 +41,14 @@ body
           var x = document.getElementById("nameTextField");
           var dis = document.getElementById("disappear");
           var unblock = document.getElementById("chatTextField");
+          var unblock2 = document.getElementById("msgBtn");
+          unblock.disabled = false;
+          unblock2.disabled = false;
 
           name = x.value; // <--- USE THIS FOR BACKEND
 
-          unblock.value = "write your text here..."
+          unblock.value = " "
+          unblock.placeholder = 'write your text here...' // NOT WORKING
           x.value = " "
           dis.style.display = "none"
           dis.style.visibility = "hidden"
@@ -54,7 +58,7 @@ body
 
           var messageString = x.value // <--- USE THIS FOR BACKEND
 
-          x.value = " "
+          x.value = messageString
           // function(name,messageString) USE THIS
           }
           function limitText(limitField, limitCount, limitNum) {
