@@ -1,5 +1,19 @@
-<!DOCTYPE html><head><title>Red Bird Chat</title><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><script src="/socket.io/socket.io.js"></script><script src="script.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script></head><body><div class="container-fluid text-center"><div class="row page-header"><div class="col-sm-12"><h1 class="text-primary">Four Minute Friends</h1></div></div><div class="row"><div class="col-sm-12"></div></div><div class="row"><div class="col-sm-1"></div></div><div class="row jumbotron"><div class="col-sm-12"><div style="height: 18em" class="well well-md"><div class="row"><div class="col-sm-2"></div><div class="col-sm-8"><div class="table-responsive"><table><tr><th></th></tr></table></div></div><div class="col-sm-2"></div></div><div class="row"><div class="col-sm-3"></div><div id="disappear"><div class="col-sm-3"><input id="nameTextField" type="text" placeholder="what's your name?" onkeydown="limitText(this.form-group#nameTextField,this.form-group.countdown,15);" onkeyup="limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);" maxlength="15" class="form-group form-control"></div><div class="col-sm-1"><button id="nameBut" onclick="setName()" class="btn btn-primary">Set Name</button></div></div><div class="col-sm-5"></div></div></div><div class="col-sm-8"><input id="chatTextField" disabled="true" type="text" value="--Disabled--Please Enter Name Above" onkeydown="limitText(this.form-group#chatTextField,this.form-group.countdown,180)" currentCount(-1) onkeyup="limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)" maxlength="180" class="form-group form-control"><font size="1"></font>(Maximum characters: 180)</div><div class="col-sm-1"><button id="msgBtn" onclick="sendMessage()" disabled="true" class="btn btn-primary">Send</button></div><div class="col-sm-3"></div></div></div><div class="row"><div class="col-sm-12 bottom"></div></div></div><script>var msgBoard = document.getElementsByTagName("th");
-
+<!DOCTYPE html><head><title>Red Bird Chat</title><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><script src="/socket.io/socket.io.js"></script><script src="script.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script></head><body><div class="container-fluid text-center"><div class="row page-header"><div class="col-sm-12"><h1 class="text-primary">Four Minute Friends</h1></div></div><div class="row"><div class="col-sm-1"></div></div><div class="row jumbotron"><div class="col-sm-12"><div style="height: 16em" class="well well-md"><div class="row"><div class="col-sm-2"></div><div class="col-sm-8"><div class="table-responsive"><table id="append"><tr><th></th></tr></table></div></div><div class="col-sm-2"></div></div><div class="row"><div class="col-sm-3"></div><div id="disappear"><div class="col-sm-3"><input id="nameTextField" onkeypress="submitOnEnter(this, event), getLocation();" type="text" placeholder="what's your name?" onkeydown="limitText(this.form-group#nameTextField,this.form-group.countdown,15);" onkeyup="limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);" maxlength="15" class="form-group form-control"></div><div class="col-sm-1"><button id="nameBut" onclick="setName() , getLocation()" class="btn btn-primary">Set Name</button></div></div><div class="col-sm-5"></div></div></div><div class="col-sm-8"><input id="chatTextField" onkeypress="submitOnEnter(this, event);" disabled="true" type="text" value="--Disabled--Please Enter Name Above" onkeydown="limitText(this.form-group#chatTextField,this.form-group.countdown,180)" currentCount(-1) onkeyup="limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)" maxlength="180" class="form-group form-control"><font size="1"></font>(Maximum characters: 180)</div><div class="col-sm-1"><button id="msgBtn" onclick="sendMessage()" disabled="true" class="btn btn-primary">Send</button></div><div class="col-sm-3"></div></div></div><div class="row"><div class="col-sm-12 bottom"><p id="demo"></p></div></div></div><script>var repeated = 0
+var msgBoard = document.getElementsByTagName("th");
+var y = document.getElementById("demo");
+initializeTB(8);
+function initializeTB(size)
+{
+  for(count = 0; count < size - 1; ++count)
+  {
+    var table = document.getElementById("append")
+    var tr = document.createElement('tr');
+    var th = tr.appendChild(document.createElement('th'));
+    th.innerHTML = " "
+    table.appendChild(tr)
+  }
+  msgBoard.unshift(tr)
+}
 function setName() {
 var x = document.getElementById("nameTextField");
 var dis = document.getElementById("disappear");
@@ -32,7 +46,6 @@ var messageString = x.value // <--- USE THIS FOR BACKEND
     else
     {
       msgBoard[i].innerHTML = name + ": " + messageString
-    
     }
   }
   x.value = " "
@@ -43,4 +56,33 @@ limitField.value = limitField.value.substring(0, limitNum);
 } else {
 limitCount.value = limitNum - limitField.value.length;
 }
+}
+function submitOnEnter(inputElement, event) {
+if (event.keyCode == 13) { // No need to do browser specific checks. It is always 13.
+//inputElement.form.submit();
+if(inputElement.id=="nameTextField"){
+setName();
+}
+else if(inputElement.id=="chatTextField"){
+sendMessage();
+}
+}
+}
+function getLocation() {
+  if(repeated == 0)
+  {
+      ++repeated
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+          y.innerHTML = "Geolocation is not supported by this browser.";
+      }
+  } else {
+  // do nothing
+  }
+}
+
+function showPosition(position) {
+    y.innerHTML = "Latitude: " + position.coords.latitude +
+    "     Longitude: " + position.coords.longitude;
 }</script></body>

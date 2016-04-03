@@ -12,17 +12,15 @@ body
         div.col-sm-12
           h1.text-primary Four Minute Friends
       div.row
-        div.col-sm-12
-      div.row
         div.col-sm-1
       div.row.jumbotron
         div.col-sm-12
-          div.well.well-md(style="height: 18em")
+          div.well.well-md(style="height: 16em")
             div.row
               div.col-sm-2
               div.col-sm-8
                 .table-responsive
-                  table
+                  table#append
                     tr
                       th
               div.col-sm-2
@@ -30,23 +28,39 @@ body
               div.col-sm-3
               #disappear
                 div.col-sm-3
-                  input#nameTextField.form-group(type='text', class="form-control",placeholder="what\'s your name?", onkeydown='limitText(this.form-group#nameTextField,this.form-group.countdown,15);', onkeyup='limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);', maxlength='15')
+                  input#nameTextField.form-group(onkeypress='submitOnEnter(this, event), getLocation();',type='text', class="form-control",placeholder="what\'s your name?", onkeydown='limitText(this.form-group#nameTextField,this.form-group.countdown,15);', onkeyup='limitText(this.form-group#nameTextField,this.form-group#nameTextField.countdown,15);', maxlength='15')
                 div.col-sm-1
-                  button#nameBut.btn.btn-primary(onclick='setName()') Set Name
+                  button#nameBut.btn.btn-primary(onclick='setName() , getLocation()') Set Name
               div.col-sm-5
           div.col-sm-8
-            input#chatTextField.form-group(disabled = "true",type='text', class="form-control",value ="--Disabled--Please Enter Name Above",onkeydown='limitText(this.form-group#chatTextField,this.form-group.countdown,180)', 'currentCount(-1)', onkeyup='limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)', maxlength='180')
+            input#chatTextField.form-group(onkeypress='submitOnEnter(this, event);',disabled = "true",type='text', class="form-control",value ="--Disabled--Please Enter Name Above",onkeydown='limitText(this.form-group#chatTextField,this.form-group.countdown,180)', 'currentCount(-1)', onkeyup='limitText(this.form-group#chatTextField,this.form-group#chatTextField.countdown,180)', maxlength='180')
             font(size='1')
             | (Maximum characters: 180)
+
           div.col-sm-1
             button#msgBtn.btn.btn-primary(onclick='sendMessage()', disabled="true") Send
           div.col-sm-3
       div.row
         div.col-sm-12.bottom
+          p#demo
 
     script.
+          var repeated = 0
           var msgBoard = document.getElementsByTagName("th");
-
+          var y = document.getElementById("demo");
+          initializeTB(8);
+          function initializeTB(size)
+          {
+            for(count = 0; count < size - 1; ++count)
+            {
+              var table = document.getElementById("append")
+              var tr = document.createElement('tr');
+              var th = tr.appendChild(document.createElement('th'));
+              th.innerHTML = " "
+              table.appendChild(tr)
+            }
+            msgBoard.unshift(tr)
+          }
           function setName() {
           var x = document.getElementById("nameTextField");
           var dis = document.getElementById("disappear");
@@ -79,7 +93,6 @@ body
               else
               {
                 msgBoard[i].innerHTML = name + ": " + messageString
-              
               }
             }
             x.value = " "
@@ -90,4 +103,33 @@ body
           } else {
           limitCount.value = limitNum - limitField.value.length;
           }
+          }
+          function submitOnEnter(inputElement, event) {
+          if (event.keyCode == 13) { // No need to do browser specific checks. It is always 13.
+          //inputElement.form.submit();
+          if(inputElement.id=="nameTextField"){
+          setName();
+          }
+          else if(inputElement.id=="chatTextField"){
+          sendMessage();
+          }
+          }
+          }
+          function getLocation() {
+            if(repeated == 0)
+            {
+                ++repeated
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    y.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            } else {
+            // do nothing
+            }
+          }
+
+          function showPosition(position) {
+              y.innerHTML = "Latitude: " + position.coords.latitude +
+              "     Longitude: " + position.coords.longitude;
           }
