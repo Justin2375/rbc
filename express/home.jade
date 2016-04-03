@@ -1,0 +1,25 @@
+doctype
+head
+        title Red Bird Chat
+        link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+        script(src="/socket.io/socket.io.js")
+        script(src="script.js")
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+body
+  div#wrapper
+    div.container-fluid
+      div.row.top.page-header
+        div.col-md-12
+          h1 Four Minute Friends
+          input#userName.form-group(type='text' , class="form-control",value='what\'s your name?')
+          button#nameBut.btn.btn-primary(onclick='setName()') Set Name
+      div.row.middle.jumbotron
+        div.col-md-12
+          div#textArea.well.well-lg
+          input#chatLine.form-group(type='text', class="form-control",value='write your text here...')
+          button.btn.btn-primary(onclick='sendMessage()') Send
+      div.row.bottom
+        div.col-md-12.bottom
+          p.
+            <i>  </i>
